@@ -185,7 +185,7 @@ for file in os.listdir(directory):
 
 
 testSleepPeriod = 60 * 60
-stepSleepPeriod = 30 * 60
+stepSleepPeriod = 15 * 60
 
-# correctnessTests(pipelineJsons, testSleepPeriod, stepSleepPeriod)
-performanceTests(pipelineJsons[0], 10, 60*60)
+correctnessTests(pipelineJsons, testSleepPeriod, stepSleepPeriod)
+# performanceTests(pipelineJsons[0], 10, 60*60)
