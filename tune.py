@@ -8,7 +8,7 @@ from functools import reduce
 cwd = os.getcwd()
 directory_in_str = cwd+'/pipelines'
 directory = os.fsencode(directory_in_str)
-instanceURL = 'https://testing-cdf-project-261000-dot-usw1.datafusion-staging.googleusercontent.com/'
+instanceURL = 'https://performance-cdf-project-261000-dot-usw1.datafusion-staging.googleusercontent.com/'
 deployEndpoint = 'api/v3/namespaces/%s/apps/'
 runEndpointFormat = "api/v3/namespaces/%s/apps/%s/workflows/DataPipelineWorkflow/start"
 runStatusEndpointFormat = "api/v3/namespaces/%s/apps/%s/workflows/DataPipelineWorkflow/runs/"
@@ -153,7 +153,7 @@ def performanceTests(pipeline, numPipelines, testSleepPeriod):
         for i in range(1, numPipelines+1):
             pipelineName = "%s-%d" % (pipelineBaseName, i)
             deployLat = deployPipeline(pipeline, pipelineName)
-            draftLat = 0 #createDraft(pipeline, pipelineName)
+            draftLat = createDraft(pipeline, pipelineName)
             createData.append([str(iterNum), str(i), str(deployLat), str(draftLat)])
 
         draftMetricLat = draftCountMetricLatency()
@@ -168,7 +168,7 @@ def performanceTests(pipeline, numPipelines, testSleepPeriod):
         for i in range(1, numPipelines+1):
             pipelineName = "%s-%d" % (pipelineBaseName, i)
             deletePipeline(pipelineName)
-            # deleteDraft(pipelineName)
+            deleteDraft(pipelineName)
 
         iterNum += 1
         time.sleep(testSleepPeriod)
@@ -187,5 +187,5 @@ for file in os.listdir(directory):
 testSleepPeriod = 60 * 60
 stepSleepPeriod = 15 * 60
 
-correctnessTests(pipelineJsons, testSleepPeriod, stepSleepPeriod)
-# performanceTests(pipelineJsons[0], 10, 60*60)
+# correctnessTests(pipelineJsons, testSleepPeriod, stepSleepPeriod)
+performanceTests(pipelineJsons[0], 100, 60*60)
