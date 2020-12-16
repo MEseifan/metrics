@@ -1,0 +1,123 @@
+{
+    "name": "gcstodatastore",
+    "description": "Data Pipeline Application",
+    "artifact": {
+        "name": "cdap-data-pipeline",
+        "version": "6.3.0-SNAPSHOT",
+        "scope": "SYSTEM"
+    },
+    "config": {
+        "stages": [
+            {
+                "name": "GCS",
+                "plugin": {
+                    "name": "GCSFile",
+                    "type": "batchsource",
+                    "label": "GCS",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.16.0-SNAPSHOT",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "auto-detect",
+                        "format": "csv",
+                        "skipHeader": "false",
+                        "serviceAccountType": "filePath",
+                        "serviceFilePath": "auto-detect",
+                        "filenameOnly": "false",
+                        "recursive": "false",
+                        "encrypted": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"done\",\"type\":\"boolean\"}]}",
+                        "referenceName": "gcs",
+                        "path": "gs://pjaikumar_bucket1/MetricsTesting/Input/datastore.csv"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"done\",\"type\":\"boolean\"}]}"
+                    }
+                ],
+                "id": "GCS",
+                "type": "batchsource",
+                "label": "GCS",
+                "icon": "fa-plug",
+                "$$hashKey": "object:1033",
+                "isPluginAvailable": true,
+                "_uiPosition": {
+                    "left": "1021.5px",
+                    "top": "467.5px"
+                }
+            },
+            {
+                "name": "Datastore",
+                "plugin": {
+                    "name": "Datastore",
+                    "type": "batchsink",
+                    "label": "Datastore",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.16.0-SNAPSHOT",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "auto-detect",
+                        "keyType": "Auto-generated key",
+                        "serviceAccountType": "filePath",
+                        "serviceFilePath": "auto-detect",
+                        "indexStrategy": "All",
+                        "batchSize": "25",
+                        "referenceName": "datastore",
+                        "kind": "Task",
+                        "namespace": "testns"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"done\",\"type\":\"boolean\"}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "GCS",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"done\",\"type\":\"boolean\"}]}"
+                    }
+                ],
+                "id": "Datastore",
+                "type": "batchsink",
+                "label": "Datastore",
+                "icon": "fa-plug",
+                "$$hashKey": "object:1034",
+                "isPluginAvailable": true,
+                "_uiPosition": {
+                    "left": "1321.5px",
+                    "top": "467.5px"
+                }
+            }
+        ],
+        "connections": [
+            {
+                "from": "GCS",
+                "to": "Datastore"
+            }
+        ],
+        "comments": [],
+        "resources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "driverResources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "postActions": [],
+        "properties": {},
+        "processTimingEnabled": true,
+        "stageLoggingEnabled": false,
+        "engine": "spark",
+        "schedule": "0 * * * *",
+        "maxConcurrentRuns": 1
+    }
+}
