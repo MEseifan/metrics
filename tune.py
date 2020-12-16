@@ -8,7 +8,7 @@ from functools import reduce
 cwd = os.getcwd()
 directory_in_str = cwd+'/pipelines'
 directory = os.fsencode(directory_in_str)
-instanceURL = 'https://testing-cdf-project-261000-dot-usw1.datafusion-staging.googleusercontent.com/'
+instanceURL = 'https://correctness-cdf-project-261000-dot-usw1.datafusion-staging.googleusercontent.com/'
 deployEndpoint = 'api/v3/namespaces/%s/apps/'
 runEndpointFormat = "api/v3/namespaces/%s/apps/%s/workflows/DataPipelineWorkflow/start"
 runStatusEndpointFormat = "api/v3/namespaces/%s/apps/%s/workflows/DataPipelineWorkflow/runs/"
