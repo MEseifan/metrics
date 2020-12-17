@@ -80,7 +80,8 @@ def createDraft(pipelineJson, pipelineName, namespace='default'):
     data = {
         'name': pipelineName,
         'artifact': pipelineJson['artifact'],
-        'config': pipelineJson
+        'config': pipelineJson,
+        'owner':''
     }
     startTime = time.time()
     res = requests.put(url, json=pipelineJson, headers=headers)
